@@ -10,7 +10,7 @@ group by 1;
 
 
 --2. Qual foi a média de gols do Cruzeiro nas partidas em que venceu jogando fora de casa?
-select avg(cast(visitante_placar as int)) --TODO - Tratar tipo do dado
+select avg(cast(visitante_placar as int)) --TODO - cast do dado na ingestao
 from database1.tb_campeonato_brasileiro_full 
 where visitante = 'Cruzeiro'
 and vencedor = 'Cruzeiro'
@@ -36,7 +36,7 @@ with partidas_mais_que_2_gols_seg_tempo_fora_de_casa as (
 	join database1.tb_campeonato_brasileiro_gols g on bf.id = g.partida_id and bf.visitante = g.clube 
 	where bf.visitante = 'Sao Paulo'
 		and bf.vencedor = 'Sao Paulo'
-		and bf.visitante_placar >= '2'
+		and cast(bf.visitante_placar as int) >= 2
 		and g.minuto >= '46'
 	group by 1,2
 	having count(1) >= 2
@@ -48,6 +48,3 @@ join database1.tb_campeonato_brasileiro_cartoes c on t.partida_id = c.partida_id
 where c.cartao = 'Amarelo'
 --group by 1
 ;
-
-
-select * from database3.tb_part_00000_23a466bf_c6c8_4778_9969_a11d3a4e1242_c000_snappy_parquet limit 10;
