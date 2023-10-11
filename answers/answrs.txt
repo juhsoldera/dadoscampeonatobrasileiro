@@ -1,0 +1,21 @@
+Q1.Utilize criptografia em repouso no seu ambiente e explique como ela funciona.
+
+A1. Criptografia em repouso trata-se da criptografia dos objetos armazenados em disco.
+No caso descrito, estamos falando da criptografia dos dados armazenados nos nossos buckets.
+
+Quando deixamos o controle por parte do s3, ele criptografa os objetos 
+antes de salvá-los em discos nos datacenters da AWS e descriptografa quando alguém os 
+baixa. A criptografia do lado do servidor com chaves gerenciadas pelo Amazon S3 
+(SSE-S3) é a configuração de criptografia padrão para todos os buckets no Amazon S3. 
+
+É possível que a gestão da criptografia, chaves e etc, fique na mão do cliente. 
+Nesse caso, teríamos que criptografar os dados antes de salvar no s3.
+
+
+Q2. as policies para definição de restrições de acesso do usuário usuario-negocio:
+
+A2. O usuário criado recebeu duas policies que permitiam acesso ao s3 e ao glue, necessárias para efetuar
+consultas no Athena, porém full access.
+Algo interessante que não consegui entregar seria utilizar lake formation.
+
+
