@@ -1,5 +1,5 @@
 {
-	"title": "Data Contract Schema",
+	"title": "DataContractSchema",
 	"type": "object",
 	"properties": {
 		"quantumName": {
