@@ -1,0 +1,173 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#", 
+    "title": "Data Contract Schema",
+    "type": "object",
+    "properties": {
+      "quantumName": {
+        "type": "string",
+        "enum": ["totvs", "bidra"],
+        "description": "Nome do quantum relacionado ao contrato"
+      },
+      "version": {
+        "type": "string",
+        "description": "Versão do contrato"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["production"],
+        "description": "Status do contrato"
+      },
+      "uuid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Identificador único do contrato"
+      },
+      "kind": {
+        "type": "string",
+        "enum": ["DataContract"],
+        "description": "Tipo de contrato"
+      },
+      "type": {
+        "type": "string",
+        "enum": ["tables"],
+        "description": "Tipo de dados do contrato"
+      },
+      "dataset": {
+        "type": "array",
+        "description": "Lista de tabelas no contrato",
+        "items": {
+          "type": "object",
+          "properties": {
+            "table": {
+              "type": "string",
+              "description": "Nome da tabela"
+            },
+            "schema": {
+              "type": "string",
+              "description": "Schema da tabela no banco de dados"
+            },
+            "outputSchema": {
+              "type": "string",
+              "description": "Schema de saída para a tabela"
+            },
+            "outputTable": {
+              "type": "string",
+              "description": "Nome da tabela de saída"
+            },
+            "description": {
+              "type": "string",
+              "description": "Descrição da tabela"
+            },
+            "tags": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Tags relacionadas à tabela"
+            },
+            "dataGranularity": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Granularidade dos dados"
+            },
+            "columns": {
+              "type": "array",
+              "description": "Colunas na tabela",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "column": {
+                    "type": "string",
+                    "description": "Nome da coluna"
+                  },
+                  "required": {
+                    "type": "string",
+                    "description": "Indica se o campo é obrigatório (TBD até preenchido)"
+                  },
+                  "isPrimaryKey": {
+                    "type": "boolean",
+                    "description": "Define se a coluna é uma chave primária"
+                  },
+                  "isNullable": {
+                    "type": "boolean",
+                    "description": "Define se a coluna pode ser nula"
+                  },
+                  "isUnique": {
+                    "type": "boolean",
+                    "description": "Define se a coluna é única"
+                  },
+                  "physicalType": {
+                    "type": "string",
+                    "description": "Tipo físico da coluna no banco de dados"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Descrição da coluna"
+                  },
+                  "classification": {
+                    "type": "string",
+                    "enum": ["public", "confidential", "restricted"],
+                    "description": "Classificação de dados da coluna"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "description": "Tags relacionadas à coluna"
+                  }
+                },
+                "required": ["column", "isPrimaryKey", "isNullable", "isUnique", "physicalType", "classification"]
+              }
+            }
+          },
+          "required": ["table", "schema", "columns"]
+        }
+      },
+      "contractCreatedTs": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp de criação do contrato"
+      }
+    },
+    "required": ["quantumName", "version", "status", "uuid", "kind", "type", "dataset", "contractCreatedTs"],
+  
+    "allOf": [
+    {
+      "if": {
+        "properties": { "quantumName": { "const": "bidra" } }
+      },
+      "then": {
+        "properties": {
+          "dataset": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "type": "string",
+                  "const": "public",
+                  "description": "Schema deve ser 'public' quando quantumName é 'bidra'"
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "dataset": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "type": "string",
+                  "const": "dbo",
+                  "description": "Schema deve ser 'dbo' quando quantumName não é 'bidra'"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+  }
+  
