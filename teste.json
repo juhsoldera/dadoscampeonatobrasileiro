@@ -165,50 +165,5 @@
         "type",
         "dataset",
         "contractCreatedTs"
-    ],
-    "allOf": [
-        {
-            "if": {
-                "properties": {
-                    "quantumName": {
-                        "const": "bidra"
-                    }
-                }
-            },
-            "then": {
-                "properties": {
-                    "dataset": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "schema": {
-                                    "type": "string",
-                                    "const": "public",
-                                    "description": "Schema deve ser 'public' quando quantumName é 'bidra'"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "else": {
-                "properties": {
-                    "dataset": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "schema": {
-                                    "type": "string",
-                                    "const": "dbo",
-                                    "description": "Schema deve ser 'dbo' quando quantumName não é 'bidra'"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     ]
 }
